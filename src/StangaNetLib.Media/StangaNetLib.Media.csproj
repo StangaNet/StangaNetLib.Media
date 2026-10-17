@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <AssemblyName>StangaNetLib.Media</AssemblyName>
+    <RootNamespace>StangaNetLib.Media</RootNamespace>
+    <Version>1.0.0</Version>
+    <Description>Image optimization (multi-variant JPEG/WebP), magic-byte validation, and cloud/local photo storage abstraction for .NET applications.</Description>
+    <PackageTags>imaging;media;optimization;azure-blob;photo;imagesharp</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="StangaNetLib.Media.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StangaNetLib.Storage" />
+    <PackageReference Include="SixLabors.ImageSharp" />
+    <PackageReference Include="Azure.Storage.Blobs" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
