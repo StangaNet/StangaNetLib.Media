@@ -28,7 +28,7 @@ The package is hosted on **GitHub Packages** (pulls Storage / Core from the same
 
 ```xml
 <!-- .csproj -->
-<PackageReference Include="StangaNetLib.Media" Version="1.0.0" />
+<PackageReference Include="StangaNetLib.Media" Version="1.0.1" />
 ```
 
 See [CHANGELOG.md](./CHANGELOG.md) for release history.

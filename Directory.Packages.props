@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- StangaNetLib foundation -->
-    <PackageVersion Include="StangaNetLib.Storage" Version="1.0.0" />
+    <PackageVersion Include="StangaNetLib.Storage" Version="1.0.1" />
     <!-- Image processing -->
     <!-- 3.1.12 is the last build without Six Labors commercial license MSBuild gate;
          3.2.0+ / 4.x require sixlabors.lic. Security advisories patched only in 3.2+/4.1.2+. -->

@@ -3,7 +3,7 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <AssemblyName>StangaNetLib.Media</AssemblyName>
     <RootNamespace>StangaNetLib.Media</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>Image optimization (multi-variant JPEG/WebP), magic-byte validation, and cloud/local photo storage abstraction. Depends on StangaNetLib.Storage and StangaNetLib.Core.</Description>
     <PackageTags>imaging;media;optimization;azure-blob;photo;imagesharp;stanganet</PackageTags>
   </PropertyGroup>

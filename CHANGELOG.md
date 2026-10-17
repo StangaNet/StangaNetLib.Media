@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-10-18
+
+### Fixed
+- Depend on `StangaNetLib.Storage` 1.0.1 (ME 8.x graph). The feed's Storage 1.0.0 nuspec pulled ME 10.x / Azure.Storage.Blobs 12.29.x and caused NU1605 downgrade errors under `TreatWarningsAsErrors`.
+
 ## [1.0.0] - 2026-10-17
 
 ### Added
@@ -19,5 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SixLabors.ImageSharp 3.1.12 (last version without commercial license MSBuild gate).
 - CI via shared StangaNet reusable workflow (push / PR / manual; publish outside PRs).
 
-[Unreleased]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/StangaNet/StangaNetLib.Media/releases/tag/v1.0.0
