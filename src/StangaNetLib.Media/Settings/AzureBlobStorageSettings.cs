@@ -6,6 +6,7 @@ namespace StangaNetLib.Media.Settings;
 /// </summary>
 public sealed class AzureBlobStorageSettings
 {
+    /// <summary>Configuration section name.</summary>
     public const string SectionName = "AzureBlobStorage";
 
     /// <summary>Azure Storage connection string (required when <see cref="StorageProvider.AzureBlob"/> is active).</summary>

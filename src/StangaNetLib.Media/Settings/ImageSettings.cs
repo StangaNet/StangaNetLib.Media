@@ -3,6 +3,7 @@ namespace StangaNetLib.Media.Settings;
 /// <summary>Configuration for image resizing and quality. Bind to "ImageSettings" in appsettings.json.</summary>
 public sealed class ImageSettings
 {
+    /// <summary>Configuration section name.</summary>
     public const string SectionName = "ImageSettings";
 
     /// <summary>Max pixels for the Thumbnail variant (default 150).</summary>

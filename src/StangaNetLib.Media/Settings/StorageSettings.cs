@@ -3,6 +3,7 @@ namespace StangaNetLib.Media.Settings;
 /// <summary>Chooses which storage backend is registered. Bind to "StorageSettings".</summary>
 public sealed class StorageSettings
 {
+    /// <summary>Configuration section name.</summary>
     public const string SectionName = "StorageSettings";
 
     /// <summary>Storage backend to use (default <see cref="StorageProvider.Local"/>).</summary>

@@ -4,8 +4,8 @@
     <AssemblyName>StangaNetLib.Media</AssemblyName>
     <RootNamespace>StangaNetLib.Media</RootNamespace>
     <Version>1.0.0</Version>
-    <Description>Image optimization (multi-variant JPEG/WebP), magic-byte validation, and cloud/local photo storage abstraction for .NET applications.</Description>
-    <PackageTags>imaging;media;optimization;azure-blob;photo;imagesharp</PackageTags>
+    <Description>Image optimization (multi-variant JPEG/WebP), magic-byte validation, and cloud/local photo storage abstraction. Depends on StangaNetLib.Storage and StangaNetLib.Core.</Description>
+    <PackageTags>imaging;media;optimization;azure-blob;photo;imagesharp;stanganet</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,10 +17,40 @@
     <PackageReference Include="SixLabors.ImageSharp" />
     <PackageReference Include="Azure.Storage.Blobs" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\build\**" Pack="true" PackagePath="build/" />
+  </ItemGroup>
+
+  <Target Name="StampBuildProps" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <_BuildPropsFile>$(MSBuildThisFileDirectory)..\..\build\StangaNetLib.Media.props</_BuildPropsFile>
+    </PropertyGroup>
+    <ItemGroup>
+      <_BPLines Include="&lt;Project&gt;" />
+      <_BPLines Include="  &lt;ItemGroup&gt;" />
+      <_BPLines Include="    &lt;AssemblyAttribute Include=&quot;System.Reflection.AssemblyMetadataAttribute&quot;&gt;" />
+      <_BPLines Include="      &lt;_Parameter1&gt;StangaNetLib.Media&lt;/_Parameter1&gt;" />
+      <_BPLines Include="      &lt;_Parameter2&gt;$(Version)&lt;/_Parameter2&gt;" />
+      <_BPLines Include="    &lt;/AssemblyAttribute&gt;" />
+      <_BPLines Include="  &lt;/ItemGroup&gt;" />
+      <_BPLines Include="&lt;/Project&gt;" />
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(_BuildPropsFile)"
+      Lines="@(_BPLines)"
+      Overwrite="true"
+      Encoding="UTF-8" />
+    <Message Text="StangaNetLib.Media: stamped build props with version $(Version)" Importance="high" />
+  </Target>
+
+  <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\assets\package-icon.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\CHANGELOG.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
