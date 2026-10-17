@@ -4,24 +4,24 @@
 ![NuGet](https://img.shields.io/badge/nuget-1.0.0-blue)
 ![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%209.0-512BD4)
 
-StangaNetLib.Media provides image optimization (multi-variant JPEG/WebP), magic-byte photo validation, and photo storage abstractions (local, Azure Blob, or `StangaNetLib.Storage`-backed). Operations return `Result` / `Result<T>` from `StangaNetLib.Core`.
+Image optimization (multi-variant JPEG/WebP), magic-byte photo validation, and photo storage abstractions (local, Azure Blob, or [`StangaNetLib.Storage`](https://github.com/StangaNet/StangaNetLib.Storage)-backed). Operations return `Result` / `Result<T>` from [`StangaNetLib.Core`](https://github.com/StangaNet/StangaNetLib.Core).
 
 ## Design Philosophy
 
-- **Domain-Centric**: Organized around media capabilities (optimization, validation, photo storage) rather than infrastructure details.
-- **Functional Error Handling**: All public operations return `Result` / `Result<T>` from `StangaNetLib.Core`.
-- **Pluggable Storage**: Local filesystem, Azure Blob, null (no-op), or any `IBlobStorageService` from `StangaNetLib.Storage`.
-- **Modern Standards**: Optimized for .NET 8.0 and 9.0 with SixLabors.ImageSharp.
+- **Domain-centric**: optimization, validation, and photo storage as capabilities.
+- **Functional failures**: expected outcomes map to `Result` / `Result<T>`.
+- **Pluggable storage**: local, Azure Blob, null, or any `IBlobStorageService`.
+- **Modern .NET**: `net8.0` / `net9.0` with SixLabors.ImageSharp.
 
 ## Installation
 
-The package is hosted on **GitHub Packages**.
+The package is hosted on **GitHub Packages** (pulls Storage / Core from the same feed).
 
 ```xml
-<!-- NuGet.config — add the GitHub Packages source -->
+<!-- NuGet.config — source key must match your packageSourceCredentials -->
 <configuration>
   <packageSources>
-    <add key="github" value="https://nuget.pkg.github.com/StangaNet/index.json" />
+    <add key="StangaNet" value="https://nuget.pkg.github.com/StangaNet/index.json" />
   </packageSources>
 </configuration>
 ```
@@ -31,30 +31,28 @@ The package is hosted on **GitHub Packages**.
 <PackageReference Include="StangaNetLib.Media" Version="1.0.0" />
 ```
 
-**Dependencies**: `StangaNetLib.Core`, `StangaNetLib.Storage`, `SixLabors.ImageSharp`, `Azure.Storage.Blobs`, `Microsoft.Extensions.*`.
-
----
+See [CHANGELOG.md](./CHANGELOG.md) for release history.
 
 ## Core Components
 
-*The library is organized into functional namespaces. For implementation details, refer directly to the source code.*
-
-| Namespace | Core Components | Purpose |
-| :--- | :--- | :--- |
-| `StangaNetLib.Media.Abstractions` | `IImageOptimizationService`, `IPhotoStorageService` | Public contracts. |
-| `StangaNetLib.Media.Models` | `ImageVariants`, `ImageVariant`, `PhotoUploadResult`, `PhotoUrls`, `ImageSizeType` | Domain models. |
-| `StangaNetLib.Media.Services` | `ImageOptimizationService` | Multi-size JPEG/WebP generation. |
-| `StangaNetLib.Media.Storage` | `LocalPhotoStorageService`, `AzureBlobPhotoStorageService`, `StorageBackedPhotoStorageService`, `NullPhotoStorageService` | Photo persistence. |
-| `StangaNetLib.Media.Validation` | `PhotoValidator` | Magic-byte and size validation. |
-| `StangaNetLib.Media.Settings` | `ImageSettings`, `StorageSettings`, `AzureBlobStorageSettings`, … | Configuration. |
-| `StangaNetLib.Media.Extensions` | `ServiceCollectionExtensions` | DI registration. |
-
----
+| Namespace | Components | Purpose |
+|---|---|---|
+| `StangaNetLib.Media.Abstractions` | `IImageOptimizationService`, `IPhotoStorageService` | Public contracts |
+| `StangaNetLib.Media.Models` | `ImageVariants`, `PhotoUploadResult`, `PhotoUrls`, … | Domain models |
+| `StangaNetLib.Media.Services` | `ImageOptimizationService` | Multi-size JPEG/WebP |
+| `StangaNetLib.Media.Storage` | Local / Azure / Storage-backed / Null | Photo persistence |
+| `StangaNetLib.Media.Validation` | `PhotoValidator` | Magic-byte and size checks |
+| `StangaNetLib.Media.Settings` | `ImageSettings`, storage options + validators | Configuration |
+| `StangaNetLib.Media.Extensions` | `AddStangaNetLibMedia`, … | DI |
 
 ## Project Structure
 
 ```
 StangaNetLib.Media/
+├── assets/
+│   └── package-icon.png
+├── build/
+│   └── StangaNetLib.Media.props
 ├── src/
 │   └── StangaNetLib.Media/
 │       ├── Abstractions/
@@ -68,27 +66,33 @@ StangaNetLib.Media/
     └── StangaNetLib.Media.Tests/
 ```
 
----
-
 ## Quick Start
 
 ```csharp
 builder.Services.AddStangaNetLibMedia(builder.Configuration);
-// Requires ImageSettings (+ StorageSettings / AzureBlobStorageSettings as needed)
 ```
 
 ```csharp
-public class PhotoService(IImageOptimizationService optimizer, IPhotoStorageService storage)
+public class PhotoService(
+    IImageOptimizationService optimizer,
+    IPhotoStorageService storage)
 {
-    public async Task<Result<PhotoUploadResult>> UploadAsync(Stream image, string ownerId, CancellationToken ct)
+    public async Task<Result<PhotoUploadResult>> UploadAsync(Stream image, CancellationToken ct)
     {
-        var variants = await optimizer.ProcessAsync(image, ct);
-        if (variants.IsFailure) return variants.Error;
-        return await storage.UploadVariantsAsync(ownerId, variants.Value!, ct);
+        var variants = await optimizer.OptimizeAsync(image, ct);
+        if (variants.IsFailure)
+            return Result.Failure<PhotoUploadResult>(variants.Error);
+
+        return await storage.UploadAsync(variants.Value, ct);
     }
 }
 ```
 
-## About
+## CI/CD
 
-Image optimization (multi-variant JPEG/WebP), magic-byte validation, and cloud/local photo storage abstraction for .NET applications.
+On push/PR to `main` and `workflow_dispatch`, the shared StangaNet workflow:
+
+1. Restores, builds, and tests on .NET 8 and .NET 9
+2. Packs the NuGet package (with symbols)
+3. Publishes to GitHub Packages outside pull requests
+4. Uploads the `.nupkg` as a build artifact
