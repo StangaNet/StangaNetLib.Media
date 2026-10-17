@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <AssemblyName>StangaNetLib.Media.Tests</AssemblyName>
     <RootNamespace>StangaNetLib.Media.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <UseAppHost>true</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,10 +16,11 @@
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="SixLabors.ImageSharp" />
     <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\StangaNetLib.Media\StangaNetLib.Media.csproj" />
   </ItemGroup>
-
 </Project>
