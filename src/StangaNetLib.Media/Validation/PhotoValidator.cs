@@ -23,7 +23,7 @@ public static class PhotoValidator
         ],
         ["image/webp"] =
         [
-            // RIFF header — WebP files start with "RIFF"
+            // RIFF....WEBP — validated further in ValidateMagicBytes
             [0x52, 0x49, 0x46, 0x46],
         ],
         ["image/gif"]  =
@@ -82,6 +82,15 @@ public static class PhotoValidator
     {
         if (!_signatures.TryGetValue(mime, out var signatures))
             return true;    // unknown MIME → no signature to check, allow through
+
+        if (mime == "image/webp")
+        {
+            // RIFF at 0..3 and WEBP at 8..11
+            ReadOnlySpan<byte> webpFourCC = "WEBP"u8;
+            return data.Length >= 12
+                && data.AsSpan(0, 4).SequenceEqual("RIFF"u8)
+                && data.AsSpan(8, 4).SequenceEqual(webpFourCC);
+        }
 
         return signatures.Any(sig =>
             data.Length >= sig.Length &&

@@ -7,6 +7,7 @@ using StangaNetLib.Core.Common;
 using StangaNetLib.Media.Abstractions;
 using StangaNetLib.Media.Models;
 using StangaNetLib.Media.Settings;
+using StangaNetLib.Media.Validation;
 
 namespace StangaNetLib.Media.Services;
 
@@ -23,6 +24,16 @@ internal sealed class ImageOptimizationService(IOptions<ImageSettings> options)
     {
         try
         {
+            var contentType = DetectContentType(imageData);
+            var validation = PhotoValidator.Validate(
+                imageData,
+                fileName: "upload",
+                contentType: contentType,
+                maxSizeBytes: _settings.MaxUploadSizeBytes,
+                allowedMimeTypes: _settings.AllowedMimeTypes);
+            if (validation.IsFailure)
+                return Result<ImageVariants>.Failure(validation.Error);
+
             // Decode once; each variant clones the source to avoid re-decode overhead.
             using var source = Image.Load(imageData);
 
@@ -205,5 +216,19 @@ internal sealed class ImageOptimizationService(IOptions<ImageSettings> options)
     {
         try   { return Result<ImageVariant>.Success(await action()); }
         catch (Exception ex) { return new Error("Media.ProcessingFailed", ex.Message); }
+    }
+
+    private static string DetectContentType(byte[] data)
+    {
+        if (data.Length >= 3 && data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF)
+            return "image/jpeg";
+        if (data.Length >= 8 && data.AsSpan(0, 8).SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }))
+            return "image/png";
+        if (data.Length >= 12 && data.AsSpan(0, 4).SequenceEqual("RIFF"u8) && data.AsSpan(8, 4).SequenceEqual("WEBP"u8))
+            return "image/webp";
+        if (data.Length >= 6 && data.AsSpan(0, 6).SequenceEqual("GIF89a"u8)
+            || data.Length >= 6 && data.AsSpan(0, 6).SequenceEqual("GIF87a"u8))
+            return "image/gif";
+        return "application/octet-stream";
     }
 }

@@ -1,7 +1,7 @@
 # StangaNetLib.Media
 
 [![.NET CI](https://github.com/StangaNet/StangaNetLib.Media/actions/workflows/main.yml/badge.svg)](https://github.com/StangaNet/StangaNetLib.Media/actions/workflows/main.yml)
-![NuGet](https://img.shields.io/badge/nuget-1.0.2-blue)
+![NuGet](https://img.shields.io/badge/nuget-1.1.0-blue)
 ![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%2010.0-512BD4)
 
 Image optimization (multi-variant JPEG/WebP), magic-byte photo validation, and photo storage abstractions (local, Azure Blob, or [`StangaNetLib.Storage`](https://github.com/StangaNet/StangaNetLib.Storage)-backed). Operations return `Result` / `Result<T>` from [`StangaNetLib.Core`](https://github.com/StangaNet/StangaNetLib.Core).
@@ -10,6 +10,7 @@ Image optimization (multi-variant JPEG/WebP), magic-byte photo validation, and p
 
 - **Domain-centric**: optimization, validation, and photo storage as capabilities.
 - **Functional failures**: expected outcomes map to `Result` / `Result<T>`.
+- **Local-first**: `AddStangaNetLibMediaLocal` / Storage Local — Azure is optional, not required.
 - **Pluggable storage**: local, Azure Blob, null, or any `IBlobStorageService`.
 - **Modern .NET**: `net8.0` / `net9.0` / `net10.0` with SixLabors.ImageSharp.
 

@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.1.0] - 2026-10-23
+
+### Added
+- `PhotoValidator` is wired into `ImageOptimizationService.ProcessAsync` before decoding.
+- Stricter WebP magic-byte check (`RIFF` + `WEBP` at offset 8).
+
+### Changed
+- Local photo storage documented as a supported local-only / self-hosted profile.
+
 ## [1.0.2] - 2026-10-23
 
 ### Changed

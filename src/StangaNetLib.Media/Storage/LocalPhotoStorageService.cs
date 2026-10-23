@@ -8,7 +8,7 @@ namespace StangaNetLib.Media.Storage;
 
 /// <summary>
 /// Stores variants on the local filesystem under <see cref="StorageSettings.LocalBasePath"/>.
-/// <para><b>Development only</b> — not suitable for multi-instance deployments.</para>
+/// Suitable for local-only / single-instance self-hosted deployments (no Azure required).
 /// </summary>
 internal sealed class LocalPhotoStorageService(IOptions<StorageSettings> options)
     : IPhotoStorageService
