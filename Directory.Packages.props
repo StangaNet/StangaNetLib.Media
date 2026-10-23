@@ -11,7 +11,7 @@
     <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.12" />
     <!-- Cloud storage -->
     <PackageVersion Include="Azure.Storage.Blobs" Version="12.22.2" />
-    <!-- Runtime dependencies — align with lowest TFM (net8) for dual-targeting -->
+    <!-- Runtime dependencies — align with lowest TFM (net8) for multi-targeting (net8/net9/net10) -->
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
