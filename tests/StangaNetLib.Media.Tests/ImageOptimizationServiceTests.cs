@@ -114,7 +114,7 @@ public sealed class ImageOptimizationServiceTests
         var result = await _sut.ProcessAsync([0x00, 0x01, 0x02, 0x03], TestContext.Current.CancellationToken);
 
         result.IsSuccess.Should().BeFalse();
-        result.Error.Code.Should().Be("Media.ProcessingFailed");
+        result.Error.Code.Should().Be("Photo.InvalidMimeType");
     }
 
     // ─── ResizeAsync ─────────────────────────────────────────────────────────
