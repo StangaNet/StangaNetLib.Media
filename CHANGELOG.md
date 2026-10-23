@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.0.2] - 2026-10-23
+
 ### Changed
 - Add `net10.0` target framework alongside `net8.0` and `net9.0`.
 - Require .NET SDK 10 (global.json) to multi-target `net8.0` / `net9.0` / `net10.0`; opt in Microsoft.Testing.Platform as the `dotnet test` runner.
@@ -28,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SixLabors.ImageSharp 3.1.12 (last version without commercial license MSBuild gate).
 - CI via shared StangaNet reusable workflow (push / PR / manual; publish outside PRs).
 
-[Unreleased]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/StangaNet/StangaNetLib.Media/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/StangaNet/StangaNetLib.Media/releases/tag/v1.0.0
